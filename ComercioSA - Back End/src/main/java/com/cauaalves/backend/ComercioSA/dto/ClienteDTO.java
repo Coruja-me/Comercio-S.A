@@ -3,14 +3,13 @@ package com.cauaalves.backend.ComercioSA.dto;
 import com.cauaalves.backend.ComercioSA.model.Cliente;
 import com.cauaalves.backend.ComercioSA.model.Endereco;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -19,7 +18,6 @@ import java.time.LocalDate;
         name = "ClienteDTO",
         example = """
                 {
-                  "id": 1,
                   "nome": "João da Silva",
                   "cpf": "278.309.083-39",
                   "dataNascimento": "24/03/2025",
@@ -33,7 +31,7 @@ import java.time.LocalDate;
                   }
                 }""")
 public class ClienteDTO {
-    @Setter(AccessLevel.NONE)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
 
     @NotNull(message = "O nome não pode ser vazio!")

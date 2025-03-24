@@ -3,18 +3,16 @@ package com.cauaalves.backend.ComercioSA.dto;
 import com.cauaalves.backend.ComercioSA.enums.TipoContato;
 import com.cauaalves.backend.ComercioSA.model.Cliente;
 import com.cauaalves.backend.ComercioSA.model.Contato;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @Schema(
         name = "ContatoDTO",
         example = """
                 {
-                  "id": 1,
                   "clienteId": "1",
                   "Tipo": "TELEFONE",
                   "Valor": "(11) 98765-4321",
@@ -22,7 +20,7 @@ import lombok.Setter;
                 }"""
 )
 public class ContatoDTO {
-    @Setter(AccessLevel.NONE)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
 
     @NotNull

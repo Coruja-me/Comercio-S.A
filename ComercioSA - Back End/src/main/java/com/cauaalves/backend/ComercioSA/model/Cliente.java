@@ -23,11 +23,11 @@ public class Cliente {
     @Column(nullable = false)
     private Integer id;
 
-    @NotNull
+    @NotNull(message = "O nome não pode ser vazio!")
     @Column(length = 100)
     private String nome;
 
-    @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$")
+    @Pattern(regexp = "(^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}$)", message = "O CPF deve estar no formato XXX.XXX.XXX-XX")
     @NotNull
     @Column(length = 14)
     private String cpf;
