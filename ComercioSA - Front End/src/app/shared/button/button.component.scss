@@ -1,0 +1,54 @@
+@import "../../../colors";
+.btn {
+  cursor: pointer;
+  border-radius: 1rem;
+  font-size: 1.6rem;
+  border: 0;
+
+  transition: all .2s;
+  padding: 1.6rem;
+  margin: .8em ;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+.create-btn {
+  background-color: $yellow-clean;
+  color: $main-red;
+
+  &:hover {
+    background-color: $main-yellow;
+  }
+  &:disabled {
+    background-color: $yellow-dark;
+  }
+}
+.list-btn {
+  color: $blue-dark;
+  background-color: $blue-clean;
+  &:hover {
+    background-color: $main-blue;
+  }
+  &:disabled {
+    background-color: $blue-dark;
+    color: $blue-clean;
+  }
+}
+.update-btn {
+  outline: 2px solid $main-yellow;
+  background-color: $yellow-clean;
+  color: $main-yellow;
+  &:hover {
+    background-color: $yellow-dark;
+  }
+}
+.delete-btn {
+  outline: 2px solid $main-red;
+  background-color: $red-clean;
+  color: $main-red;
+  &:hover {
+    background-color: $red-dark;
+  }
+}
+

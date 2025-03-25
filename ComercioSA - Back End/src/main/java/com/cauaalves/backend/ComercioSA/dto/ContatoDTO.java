@@ -40,7 +40,6 @@ public class ContatoDTO {
 
     public static ContatoDTO toDto(Contato contato) {
         ContatoDTO dto = new ContatoDTO();
-        dto.setId(contato.getId());
         dto.setClienteId(contato.getCliente() != null ? contato.getCliente().getId() : null );
         dto.setTipo(contato.getTipo().name());
         dto.setValor(contato.getValor());
@@ -58,11 +57,4 @@ public class ContatoDTO {
         return contato;
     }
 
-    public void setId(Integer id) {
-        if (this.id == null) {
-            this.id = id;
-        } else {
-            throw new UnsupportedOperationException("O ID não pode ser alterado.");
-        }
-    }
 }

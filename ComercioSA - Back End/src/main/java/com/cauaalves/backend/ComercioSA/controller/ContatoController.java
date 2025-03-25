@@ -35,7 +35,7 @@ public class ContatoController {
         List<ContatoDTO> contatos = contatoService.contatoGetAll();
         return ResponseEntity.ok().body(contatos);
     }
-    @GetMapping(value = "/nome/{nome}")
+    @GetMapping(value = "/cliente/{clienteId}")
     public ResponseEntity<List<ContatoDTO>> getClienteContato(@PathVariable Integer clienteId) {
         List<ContatoDTO> contatos = contatoService.contatoGetByCliente(clienteId);
         return ResponseEntity.ok().body(contatos);

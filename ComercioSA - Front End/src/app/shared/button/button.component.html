@@ -1,0 +1,6 @@
+<button
+  [ngClass]="getClassBtn()"
+  (click)="onClickBtn($event); navigateRoutes()"
+  [disabled]="disabled">
+{{ label }}
+</button>

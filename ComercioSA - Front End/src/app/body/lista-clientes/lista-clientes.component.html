@@ -1,0 +1,29 @@
+<section class="list-wrapper">
+  <ul class="list">
+      <li class="list-item" *ngFor="let cliente of clientesFilter">
+          <div class="list-item__info">
+              <p class="list-item"> {{ cliente.nome }} </p>
+              <p class="list-item"> {{ cliente.cpf }} </p>
+              <p class="list-item"> {{ cliente.dataNascimento }} </p>
+              <p class="list-item"> {{ cliente.nome }} </p>
+          </div>
+          <div class="list-item__endereco">
+            <p class="list-item"> {{cliente.endereco.logradouro}}</p>
+            <p class="list-item"> {{cliente.endereco.numero}}</p>
+            <p class="list-item"> {{cliente.endereco.cep}}</p>
+            <p class="list-item"> {{cliente.endereco.cidade}}</p>
+            <p class="list-item"> {{cliente.endereco.estado}}</p>
+          </div>
+          <div class="list-item__action">
+              <app-button label="Editar" (onClick)="editItem(cliente)"/>
+              <app-button label="Deletar" (onClick)="deleteItem(cliente)"/>
+          </div>
+      </li>
+      <ul class="list">
+        <li class="list-item__contatos" *ngFor="let contato of contatos">
+          <p>{{contato.tipo}}: {{contato.valor}}</p>
+          <span>Obs: {{contato.observacao}}</span>
+        </li>
+      </ul>
+  </ul>
+</section>
