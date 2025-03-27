@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { TitlePageObservable } from '../observables/titlepage.observable';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  constructor(private titlePageObs: TitlePageObservable) { }
 
+  ngOnInit(): void {
+    this.titlePageObs.next("Home");
+  }
 }

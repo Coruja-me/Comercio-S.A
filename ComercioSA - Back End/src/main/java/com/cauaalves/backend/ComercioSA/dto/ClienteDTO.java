@@ -14,22 +14,6 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-@Schema(
-        name = "ClienteDTO",
-        example = """
-                {
-                  "nome": "João da Silva",
-                  "cpf": "278.309.083-39",
-                  "dataNascimento": "24/03/2025",
-                  "endereco": {
-                    "logradouro": "Rua das Flores",
-                    "numero": "123",
-                    "cep": "76726-740",
-                    "bairro": "Centro",
-                    "cidade": "São Paulo",
-                    "estado": "SP"
-                  }
-                }""")
 public class ClienteDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
@@ -55,6 +39,7 @@ public class ClienteDTO {
 
     public static ClienteDTO toDto(Cliente cliente) {
         ClienteDTO dto = new ClienteDTO();
+        dto.setId(cliente.getId());
         dto.setNome(cliente.getNome());
         dto.setCpf(cliente.getCpf());
         dto.setDataNascimento(cliente.getDataNascimento());
@@ -75,6 +60,7 @@ public class ClienteDTO {
 
     public Cliente toEntity() {
         Cliente cliente = new Cliente();
+        cliente.setId(this.getId());
         cliente.setNome(this.getNome());
         cliente.setCpf(this.getCpf());
         cliente.setDataNascimento(this.getDataNascimento());

@@ -40,7 +40,6 @@ public class Cliente {
     @ToString.Exclude
     private List<Contato> contatos = new ArrayList<>();
 
-
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "logradouro", column = @Column(name = "end_logradouro")),

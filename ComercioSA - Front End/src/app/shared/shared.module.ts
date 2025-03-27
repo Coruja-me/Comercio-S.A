@@ -5,6 +5,7 @@ import { LogoComponent } from './logo/logo.component';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from './button/button.component';
 import { FormComponent } from './form/form.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -12,12 +13,13 @@ import { FormComponent } from './form/form.component';
   declarations: [HeaderComponent, LogoComponent, ButtonComponent, FormComponent],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   exports: [
     HeaderComponent,
     FormComponent,
-    ButtonComponent
+    ButtonComponent,
   ]
 })
 export class SharedModule { }

@@ -4,7 +4,8 @@
   border-radius: 1rem;
   font-size: 1.6rem;
   border: 0;
-
+  text-transform: uppercase;
+  font-weight: 800;
   transition: all .2s;
   padding: 1.6rem;
   margin: .8em ;
@@ -14,19 +15,21 @@
   }
 }
 .create-btn {
-  background-color: $yellow-clean;
+  outline: 2px solid $main-blue;
+  background-color: $main-yellow;
   color: $main-red;
-
   &:hover {
-    background-color: $main-yellow;
+    outline: 2px solid $blue-dark;
+    background-color: $yellow-dark;
+    color: $red-dark;
   }
   &:disabled {
     background-color: $yellow-dark;
   }
 }
 .list-btn {
-  color: $blue-dark;
   background-color: $blue-clean;
+  color: $blue-dark;
   &:hover {
     background-color: $main-blue;
   }
@@ -38,17 +41,25 @@
 .update-btn {
   outline: 2px solid $main-yellow;
   background-color: $yellow-clean;
-  color: $main-yellow;
+  color: $yellow-dark;
   &:hover {
-    background-color: $yellow-dark;
+    background-color: $main-yellow;
   }
 }
 .delete-btn {
   outline: 2px solid $main-red;
   background-color: $red-clean;
-  color: $main-red;
+  color: $red-dark;
   &:hover {
-    background-color: $red-dark;
+    background-color: $main-red;
   }
 }
 
+.navbar-link-btn {
+  border: 2px solid $yellow-dark;
+  background-color: $yellow-clean;
+  text-shadow: 0 2px $main-yellow;
+  &:hover {
+    background-color: $yellow-dark;
+  }
+}

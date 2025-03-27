@@ -7,6 +7,6 @@ export interface Cliente {
   nome: string;
   cpf: string;
   dataNascimento: Date | string;
-  endereco: Endereco;
-  contatos: Contato[]
+  endereco?: Endereco;
+  contatos: Contato[];
 }

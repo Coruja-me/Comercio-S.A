@@ -9,22 +9,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@Schema(
-        name = "ContatoDTO",
-        example = """
-                {
-                  "clienteId": "1",
-                  "Tipo": "TELEFONE",
-                  "Valor": "(11) 98765-4321",
-                  "Observacao": "Contato de emergência",
-                }"""
-)
 public class ContatoDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
 
     @NotNull
-    @Schema(example = "1", description = "Identificador do cliente")
+    @Schema(description = "Identificador do cliente")
     private Integer clienteId;
 
     @NotNull
@@ -40,6 +30,7 @@ public class ContatoDTO {
 
     public static ContatoDTO toDto(Contato contato) {
         ContatoDTO dto = new ContatoDTO();
+        dto.setId(contato.getId());
         dto.setClienteId(contato.getCliente() != null ? contato.getCliente().getId() : null );
         dto.setTipo(contato.getTipo().name());
         dto.setValor(contato.getValor());
@@ -49,6 +40,7 @@ public class ContatoDTO {
     }
     public Contato toEntity(Cliente cliente) {
         Contato contato = new Contato();
+        contato.setId(this.getId());
         contato.setCliente(cliente);
         contato.setTipo(TipoContato.valueOf(this.getTipo()));
         contato.setValor(this.getValor());

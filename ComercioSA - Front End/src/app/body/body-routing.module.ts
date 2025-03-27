@@ -7,11 +7,11 @@ import { ListaClientesComponent } from './lista-clientes/lista-clientes.componen
 const routes: Routes = [
   {path: '', component: HomeComponent, pathMatch: 'full'},
   {path: 'sobre', component: AboutComponent},
-  {path: 'lista', component: ListaClientesComponent}
+  {path: 'clientes', component: ListaClientesComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class BodyRoutingModule { }

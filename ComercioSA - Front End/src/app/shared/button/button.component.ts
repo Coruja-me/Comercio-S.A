@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
@@ -20,7 +19,7 @@ export class ButtonComponent {
   }
 
   getClassBtn(): string {
-    const base = `btn ${this.typeBtn}`
+    const base = `btn ${this.typeBtn}-btn`
     return base
   }
   navigateRoutes() {

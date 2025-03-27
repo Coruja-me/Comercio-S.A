@@ -1,7 +1,9 @@
+import { TipoContato } from "../enum/tipo-contato";
+
 export interface Contato {
   readonly id: number;
   clienteId: number;
-  tipo: string;
+  tipo?: TipoContato;
   valor: string;
-  observacao: string;
+  observacao?: string;
 }

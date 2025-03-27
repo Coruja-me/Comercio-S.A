@@ -1,0 +1,43 @@
+@import "../../../colors";
+.main-cliente-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cliente-list {
+  border-radius: 1em;
+  box-shadow: 0 2px 6px $blue-dark;
+  background-color: $blue-dark;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  .cliente-list__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.6em 0;
+    padding: 1.6em;
+    border-bottom: 5px solid $main-blue;
+    transition: all .2s;
+    &:hover {
+      background-color: rgba($blue-clean, $alpha: 60%);
+      & .cliente-list__item-content, .cliente-list__item-action {
+        color: $blue-dark;
+      }
+    }
+    .cliente-list__item-content, .cliente-list__item-action {
+      display: flex;
+      flex-direction: column;
+      font-size: 2em;
+      transition: all .2s;
+      color: $blue-clean;
+      flex: 1 1 20%;
+      gap: 1.4rem;
+    }
+    .cliente-list__item-action {
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+    }
+  }
+}

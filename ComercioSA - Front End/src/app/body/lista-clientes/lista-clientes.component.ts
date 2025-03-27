@@ -6,16 +6,18 @@ import { Contato } from 'src/app/modules/home/model/contato';
 import { Endereco } from 'src/app/modules/home/model/endereco';
 import { ClienteService } from 'src/app/modules/home/services/cliente.service';
 import { ContatoService } from 'src/app/modules/home/services/contato.service';
+import { TitlePageObservable } from '../observables/titlepage.observable';
+import { FormInput } from 'src/app/shared/form/form-input';
 
 @Component({
   selector: 'app-lista-clientes',
   templateUrl: './lista-clientes.component.html',
-  styleUrls: ['./lista-clientes.component.scss']
+  styleUrls: ['./lista-clientes.component.scss'],
 })
 export class ListaClientesComponent implements OnInit {
   cliente!: Cliente;
   clientes: Cliente[] = [];
-  clientesFilter: Cliente[] = [];
+
   showOverlayCreate: boolean = false;
   showOverlayFind: boolean = false;
   showOverlayEdit: boolean = false;
@@ -23,40 +25,45 @@ export class ListaClientesComponent implements OnInit {
   contato!: Contato;
   contatos: Contato[] = [];
 
-  @Output() itemEdited: any;
-  itemDeleted: any;
-
-  editItem(item: any): void{
-    this.itemEdited.emit(item);
-  }
-  deleteItem(item: any): void{
-    this.itemDeleted.emit(item);
-  }
+  clienteFormFields: FormInput[] = [
+    {
+      name: 'nome', label: 'Nome', type: 'text', placeholder: 'John Doe', required: true,
+    },
+    {
+      name: 'dataNascimento', label: 'Data de Nascimento', type: 'date', placeholder: 'dd/mm/yyyy', required: true,
+    },
+    {
+      name: 'cpf', label: 'CPF', type: 'text', placeholder: '123.456.789-00', required: true, pattern: '\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}',
+    },
+    {
+      name: 'endereco.logradouro', label: 'Logradouro', type: 'text', placeholder: 'Rua dos Bobos, Av. Paulista', required: false,
+    },
+    {
+      name: 'endereco.cep', label: 'CEP', type: 'text', placeholder: '12345-000', required: false, pattern: '\\d{5}-\\d{3}',
+    },
+    {
+      name: 'endereco.bairro', label: 'Bairro', type: 'text', placeholder: 'Vila Mara', required: false,
+    },
+    {
+      name: 'endereco.estado', label: 'Estado', type: 'text', placeholder: 'SP', required: false, minlength: 2, maxlength: 2, pattern: '^[A-Z]{2}$'
+    },
+    {
+      name: 'endereco.cidade', label: 'Cidade', type: 'text', placeholder: 'São Paulo', required: false,
+    },
+    {
+      name: 'endereco.numero', label: 'Número', type: 'number', placeholder: '100', required: false
+    }
+  ]
   ngOnInit(): void {
     this.getClientes();
+    this.titlePageObs.next("Lista de Clientes e Contatos");
   }
   getClientes(): void {
     this.service.findAll().subscribe((clientesData) => {
       this.clientes = clientesData;
-      this.clientesFilter = clientesData;
-
-      this.getContatos();
     });
   }
-  getContatos(): void {
-    const contactRequests = this.clientes.map(cliente =>
-      this.contatoService.findByCliente(cliente.id).toPromise().then(contatos => {
-        cliente.contatos = contatos || [];
-      })
-    );
-
-    Promise.all(contactRequests).then(() => {
-      console.log('Todos os contatos foram carregados!');
-    }).catch(err => {
-      console.error('Erro ao carregar os contatos:', err);
-    });
-  }
-  constructor(private service: ClienteService, private contatoService: ContatoService) {
+  constructor(private service: ClienteService, private titlePageObs: TitlePageObservable) {
     this.cliente = {
       id: 0,
       nome: '',
@@ -71,6 +78,13 @@ export class ListaClientesComponent implements OnInit {
         numero: ''
       } as Endereco,
       contatos: []
+    };
+    this.contato = {
+      id: 0,
+      clienteId: 0,
+      tipo: undefined,
+      valor: '',
+      observacao: undefined
     }
   }
   public async addCliente({model, form}: {model: Cliente; form: NgForm}) {
@@ -127,57 +141,9 @@ export class ListaClientesComponent implements OnInit {
     if (this.showOverlayEdit) this.showOverlayCreate = false;
   }
 
-  filtroChoose(evento: {tipo: string, valor: string}) {
-    if (!evento.tipo || !evento.valor) {
-      this.clientesFilter = [...this.clientes];
-      return;
-    }
-
-    switch (evento.tipo) {
-      case 'id':
-        const id = Number(evento.valor);
-        this.service.findById(id).subscribe(
-          (cliente) => {
-            this.clientesFilter = cliente ? [cliente] : [];
-          },
-          (err) => {
-            console.error("Erro ao buscar ID:", err);
-            this.clientesFilter = [];
-          }
-        );
-        break;
-
-      case 'nome':
-        this.service.findByNome(evento.valor).subscribe(
-          (cliente) => {
-            this.clientesFilter = cliente ? [cliente] : [];
-          },
-          (err) => {
-            console.error("Erro ao buscar Nome:", err);
-            this.clientesFilter = [];
-          }
-        );
-        break;
-
-      case 'cpf':
-        this.service.findByCpf(evento.valor).subscribe(
-          (cliente) => {
-            this.clientesFilter = cliente ? [cliente] : [];
-          },
-          (err) => {
-            console.error("Erro ao buscar CPF:", err);
-            this.clientesFilter = [];
-          }
-        );
-        break;
-
-      default:
-        this.clientesFilter = [...this.clientes];
-        break;
-    }
-  }
-  handleItemEdited(item: Cliente): void {
+  handleClienteEdited(item: Cliente): void {
     this.cliente = { ...item };
     this.toggleOverlayEdit();
   }
 }
+
