@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,6 @@ public class ClienteService {
     public ClienteDTO clientePut(Integer id, ClienteDTO clienteDTO) {
         Cliente cliente = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado!"));
         Cliente clienteUpdate = convertToEntity(clienteDTO);
-        validarCpfUnico(clienteDTO.getCpf());
 
         cliente.setNome(clienteUpdate.getNome());
         cliente.setCpf(clienteUpdate.getCpf());

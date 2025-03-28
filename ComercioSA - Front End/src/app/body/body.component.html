@@ -1,4 +1,22 @@
 <main class="main-body">
   <h1 class="main-title">{{titlePage}}</h1>
   <router-outlet></router-outlet>
+  <section class="buttons-create" *ngIf="titlePage == 'Lista de Clientes e Contatos'">
+    <app-button label="Adicionar Cliente" (onClick)="switchOverlay('createCliente')" typeBtn="create"/>
+    <app-button label="Adicionar Contato" (onClick)="switchOverlay('createContato')" typeBtn="create"/>
+  </section>
+  <section class="contato-form">
+    <ng-container *ngIf="showOverlay.createCliente">
+      <app-form [model]="cliente" [formFields]="clienteFormFields" (formSubmit)="addCliente($event)" [formEndereco]="true" />
+    </ng-container>
+    <ng-container *ngIf="showOverlay.editCliente">
+      <app-form [model]="cliente" [formFields]="clienteFormFields" (formSubmit)="updateCliente($event)" [formEndereco]="true"/>
+    </ng-container>
+    <ng-container *ngIf="showOverlay.createContato">
+      <app-form [model]="contato" [formFields]="contatoFormFields" (formSubmit)="addContato($event)" />
+    </ng-container>
+    <ng-container *ngIf="showOverlay.editContato">
+      <app-form [model]="contato" [formFields]="contatoFormFields" (formSubmit)="updateContato($event)" />
+    </ng-container>
+  </section>
 </main>

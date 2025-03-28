@@ -16,11 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ClienteController {
     @Autowired
-    private final ClienteService clienteService;
-
-    public ClienteController(ClienteService clienteService) {
-        this.clienteService = clienteService;
-    }
+    private ClienteService clienteService;
 
     @PostMapping
     public ResponseEntity<ClienteDTO> postCliente(@Valid @RequestBody ClienteDTO clienteDTO) {

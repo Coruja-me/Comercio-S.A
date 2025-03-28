@@ -1,94 +1,51 @@
-import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { Contato } from 'src/app/modules/home/model/contato';
-import { Endereco } from 'src/app/modules/home/model/endereco';
 import { ContatoService } from 'src/app/modules/home/services/contato.service';
-import { TitlePageObservable } from '../observables/titlepage.observable';
 import { Cliente } from 'src/app/modules/home/model/cliente';
 import { FormInput } from 'src/app/shared/form/form-input';
+import { TipoContato } from 'src/app/modules/home/enum/tipo-contato';
+import { ContatoObservable } from '../observables/contato.observable';
+import { ContatosObservable } from '../observables/contatos.observable';
 
 @Component({
   selector: 'app-lista-contatos',
   templateUrl: './lista-contatos.component.html',
   styleUrls: ['./lista-contatos.component.scss']
 })
-export class ListaContatosComponent implements OnChanges, OnInit {
-  contato!: Contato;
-  contatos: Contato[] = [];
-
-  showOverlayCreate: boolean = false;
-  showOverlayFind: boolean = false;
-  showOverlayEdit: boolean = false;
-
+export class ListaContatosComponent implements OnChanges, OnDestroy {
   @Input() cliente!: Cliente;
-
-  contatoFormFields: FormInput[] = [
-    {
-      name: 'clienteId', label: 'ID do Cliente', type: 'number', placeholder: 'John Doe', required: true,
-    },
-    {
-      name: 'dataNascimento', label: 'Data de Nascimento', type: 'date', placeholder: 'dd/mm/yyyy', required: true,
-    },
-    {
-      name: 'cpf', label: 'CPF', type: 'text', placeholder: '123.456.789-00', required: true, pattern: '\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}',
-    },
-  ]
-  ngOnInit(): void {
-    this.titlePageObs.next("Lista de Contatos e Contatos");
+  contatos: Contato[] = [];
+  contatosSub: Subscription = new Subscription();
+  
+  showOverlayActions: boolean = false;
+  
+  tipoContato = Object.values(TipoContato).map(tipo => ({label: tipo, value: tipo}))
+  
+  constructor(
+    private service: ContatoService,
+    private cObs: ContatoObservable,
+    private csObs: ContatosObservable
+  ) {
+    this.contatosSub = csObs.subscribe(c => this.contatos = c);
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["cliente"].currentValue) this.getContatos();
   }
   getContatos(): void {
-    this.service.findByCliente(this.cliente.id).subscribe((contatosData) => {
-      this.contatos = contatosData;
-    });
-
-    Promise.all(this.contatos).then(() => {
-      console.log('Todos os contatos foram carregados!');
-    }).catch(err => {
-      console.error('Erro ao carregar os contatos:', err);
-    });
+    this.service.findByCliente(this.cliente.id).subscribe(
+      (contatosData) => this.contatos = contatosData,
+      (err) => console.error(err)
+    );
   }
-  constructor(private service: ContatoService, private titlePageObs: TitlePageObservable) {
-    this.contato = {
-      id: 0,
-      clienteId: 0,
-      tipo: undefined,
-      valor: '',
-      observacao: undefined
+  ngOnDestroy(): void {
+    if(this.contatosSub) {
+      this.contatosSub.unsubscribe();
     }
   }
-  public async addContato({model, form}: {model: Contato; form: NgForm}) {
-    try {
-      const newContato = await lastValueFrom(this.service.create(model));
-
-      if(newContato) {
-        alert("Contato cadastrado!");
-        this.getContatos();
-        console.log(newContato);
-        form.resetForm()
-      } else {
-        alert("Contato não cadastrado, ocorreu um erro!");
-      }
-    } catch (error) {
-      alert("Ocorreu um erro");
-      console.error(error);
-    }
-  }
-  public async updateContato({model, form}: {model: Contato; form: NgForm}) {
-    try {
-      await lastValueFrom(this.service.update(model.id, model));
-      alert('Contato atualizado!')
-      this.getContatos();
-      this.toggleOverlayEdit();
-      form.resetForm();
-    } catch (error) {
-      alert('Erro ao atualizar o contato!');
-      console.error(error)
-    }
-  }
+  
   public async deleteContato(contato: Contato) {
     try {
       const confirmar = confirm("Deseja deletar esse contato?");
@@ -101,21 +58,11 @@ export class ListaContatosComponent implements OnChanges, OnInit {
       console.error(err);
     }
   }
-
-  toggleOverlayCreate() {
-    this.showOverlayCreate = !this.showOverlayCreate;
-    if (this.showOverlayCreate) this.showOverlayEdit = false;
-  }
-  toggleOverlayFind() {
-    this.showOverlayFind = !this.showOverlayFind;
-  }
-  toggleOverlayEdit() {
-    this.showOverlayEdit = !this.showOverlayEdit;
-    if (this.showOverlayEdit) this.showOverlayCreate = false;
+  toggleOverlayActions(): void {
+    this.showOverlayActions = !this.showOverlayActions;
   }
 
-  handleContatoEdited(item: Contato): void {
-    this.contato = { ...item };
-    this.toggleOverlayEdit();
+  handleContatoEdited(contato: Contato): void {
+    this.cObs.next(contato);
   }
 }

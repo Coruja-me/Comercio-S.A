@@ -5,18 +5,17 @@
         <p>
           <strong>{{ contato.tipo }}:</strong> {{ contato.valor }}
         </p>
-        <p>{{ contato.observacao }}</p>
+        <p *ngIf="contato?.observacao">Observação: {{ contato.observacao }}</p>
       </div>
-      <div class="card-content__action">
-        <app-button label="Adicionar Contato" (onClick)="toggleOverlayCreate()" typeBtn="create"/>
+      <ng-container *ngIf="!showOverlayActions">
+        <app-button (onClick)="toggleOverlayActions()" typeBtn="edit" label="Mostrar Ações"/>
+      </ng-container>
+      <div class="card-content__action" *ngIf="showOverlayActions">
+        <h2>Ações <span class="minus" (click)="toggleOverlayActions()">-</span></h2>
         <app-button (onClick)="handleContatoEdited(contato)" typeBtn="update" label="Editar Contato" />
         <app-button (onClick)="deleteContato(contato)" typeBtn="delete" label="Excluir Contato" />
       </div>
     </section>
   </ng-container>
 </article>
-
 <p *ngIf="!contatos || contatos.length === 0">Nenhum dado disponível, adicione um registro</p>
-<ng-container *ngIf="showOverlayEdit">
-  <app-form [model]="contato" [formFields]="contatoFormFields" (formSubmit)="addContato($event)" />
-</ng-container>

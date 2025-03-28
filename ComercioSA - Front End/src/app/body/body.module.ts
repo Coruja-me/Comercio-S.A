@@ -8,6 +8,10 @@ import { BodyRoutingModule } from './body-routing.module';
 import { ListaClientesComponent } from './lista-clientes/lista-clientes.component';
 import { TitlePageObservable } from './observables/titlepage.observable';
 import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
+import { ClienteObservable } from './observables/cliente.observable';
+import { ContatoObservable } from './observables/contato.observable';
+import { ClientesObservable } from './observables/clientes.observable';
+import { ContatosObservable } from './observables/contatos.observable';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,11 @@ import { ListaContatosComponent } from './lista-contatos/lista-contatos.componen
     BodyComponent
   ],
   providers: [
-    TitlePageObservable
+    TitlePageObservable,
+    ClienteObservable,
+    ContatoObservable,
+    ClientesObservable,
+    ContatosObservable
   ]
 })
 export class BodyModule { }

@@ -1,0 +1,10 @@
+@import '../../../colors';
+.minus {
+  color: $main-red;
+  cursor: pointer;
+}
+
+.card-container {
+  width: 100%;
+  overflow: auto;
+}

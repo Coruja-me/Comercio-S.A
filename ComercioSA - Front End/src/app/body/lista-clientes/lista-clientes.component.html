@@ -6,32 +6,31 @@
     <ul class="cliente-list" *ngIf="clientes.length > 0">
       <li class="cliente-list__item" *ngFor="let cliente of clientes">
         <div class="cliente-list__item-content">
-          <p><strong>Nome:</strong> {{ cliente.nome }}</p>
-          <p><strong>CPF: </strong>{{ cliente.cpf }}</p>
-          <p><strong>Data de Nascimento: </strong>{{ cliente.dataNascimento }}</p>
-        </div>
-        <div class="cliente-list__item-content">
-          <p><strong>Endereço:</strong> {{cliente.endereco?.logradouro}} {{cliente.endereco?.numero}}, {{cliente.endereco?.bairro}} </p>
-          <p><strong>{{cliente.endereco?.cidade}} - {{cliente.endereco?.estado}}</strong></p>
-          <p><strong>CEP:</strong> {{cliente.endereco?.cep}}</p>
-        </div>
-        <div class="cliente-list__item-content">
-          <ul class="contato-list">
-            <app-lista-contatos [cliente]="cliente" />
+          <h2>Informações Pessoais</h2>
+          <ul>
+            <li><strong>Nome:</strong> {{ cliente.nome }}</li>
+            <li><strong>CPF: </strong>{{ cliente.cpf }}</li>
+            <li><strong>Data de Nascimento: </strong>{{ cliente.dataNascimento |  date : 'dd/MM/yyyy' }}</li>
           </ul>
         </div>
+        <div class="cliente-list__item-content">
+          <h2>Endereço</h2>
+          <ul>
+            <li><strong>Endereço:</strong> {{cliente.endereco?.logradouro}} {{cliente.endereco?.numero}}, {{cliente.endereco?.bairro}} </li>
+            <li><strong>{{cliente.endereco?.cidade}} - {{cliente.endereco?.estado}}</strong></li>
+            <li><strong>CEP:</strong> {{cliente.endereco?.cep}}</li>
+          </ul>
+        </div>
+        <div class="cliente-list__item-content">
+          <h2>Contatos</h2>
+          <app-lista-contatos [cliente]="cliente"/>
+        </div>
         <div class="cliente-list__item-action">
+          <h2>Ações</h2>
           <app-button (onClick)="handleClienteEdited(cliente)" typeBtn="update" label="Editar Cliente" />
           <app-button (onClick)="deleteCliente(cliente)" typeBtn="delete" label="Excluir Cliente" />
         </div>
       </li>
     </ul>
   </section>
-  <app-button label="Adicionar Cliente" (onClick)="toggleOverlayCreate()" typeBtn="create"/>
-  <div *ngIf="showOverlayCreate">
-    <app-form [model]="cliente" [formFields]="clienteFormFields" (formSubmit)="addCliente($event)" />
-  </div>
-  <div *ngIf="showOverlayEdit">
-    <app-form [model]="cliente" [formFields]="clienteFormFields" (formSubmit)="updateCliente($event)" />
-  </div>
 </main>

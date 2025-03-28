@@ -29,8 +29,7 @@ public class ClienteDTO {
     private String cpf;
 
     @NotNull(message = "A data de nascimento não pode ser nula!")
-    @Schema(example = "24/05/2025", description = "Data de nascimento no formato dd/MM/yyyy")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Schema(example = "2025-05-24", description = "Data de nascimento no formato yyyy-MM-dd")
     @Past(message = "A data deve ser antes da atual!")
     private LocalDate dataNascimento;
 

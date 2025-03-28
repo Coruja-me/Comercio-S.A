@@ -6,7 +6,7 @@ export interface Cliente {
   readonly id: number;
   nome: string;
   cpf: string;
-  dataNascimento: Date | string;
+  dataNascimento: Date;
   endereco?: Endereco;
   contatos: Contato[];
 }

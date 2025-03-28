@@ -4,8 +4,8 @@
       <legend class="form-title">Informações</legend>
       <article class="form-area">
         <ng-container *ngFor="let field of formFields" >
-            <div class="form-area-item">
-              <label [for]="field.name">{{ field.label }}: </label>
+          <div class="form-area-item">
+            <label [for]="field.name">{{ field.label }}: </label>
               <ng-container *ngIf="field.type != 'select'">
                 <input
                   [type]="field.type"
@@ -27,7 +27,7 @@
                   </div>
                 </ng-container>
               </ng-container>
-              <ng-container *ngIf="field.type == 'select' && field.name !== 'periodo'">
+              <ng-container *ngIf="field.type == 'select'">
                 <select
                   [name]="field.name"
                   [(ngModel)]="model[field.name]"
@@ -35,12 +35,11 @@
                   [multiple]="field.multiple ?? false"
                   #fieldModel="ngModel"
                 >
-                <option value="null" disabled>{{field.placeholder}}</option>
-                <option *ngFor="let option of field.options" [ngValue]="option.value">
-                  {{option.label}}
-                 </option>
+                  <option value="null" disabled>{{field.placeholder}}</option>
+                  <option *ngFor="let option of field.options" [ngValue]="option.value">
+                    {{option.label}}
+                  </option>
                 </select>
-
                 <ng-container *ngIf="fieldModel.invalid && fieldModel.touched">
                   <div class="error-msg">
                     <p *ngIf="fieldModel.errors?.['required']">Campo obrigatório</p>
@@ -48,23 +47,39 @@
                     <p *ngIf="fieldModel.errors?.['minlength']">Mínimo de {{ field.minlength }} caracteres</p>
                     <p *ngIf="fieldModel.errors?.['maxlength']">Máximo de {{ field.maxlength }} caracteres</p>
                   </div>
-                </ng-container>
-              </ng-container>
-              <ng-container *ngIf="field.type == 'select' && field.name === 'periodo'">
-                <select
-                  [name]="field.name"
-                  [(ngModel)]="model[field.name]"
-                  [required]="field.required"
-                  [multiple]="false"
-                  #fieldModel="ngModel"
-                >
-                <option value="null" disabled>{{field.placeholder}}</option>
-                <option *ngFor="let option of field.options" [ngValue]="option.value">
-                  {{option.label}}
-                 </option>
-                </select>
+                </ng-container>              
               </ng-container>
             </div>
+          </ng-container>
+          <div class="separator"></div>
+          <ng-container *ngIf="formEndereco">
+            <fieldset>
+              <legend class="form-title">Endereço</legend>
+              <article class="form-area">
+                <div *ngFor="let field of enderecoFormFields" class="form-area-item">
+                  <label [for]="field.name">{{ field.label }}: </label>
+                  <input
+                    [type]="field.type"
+                    [name]="field.name"
+                    [placeholder]="field.placeholder"
+                    [(ngModel)]="model.endereco[field.name]"
+                    [required]="field.required"
+                    [pattern]="field.pattern ?? ''"
+                    [minlength]="field.minlength ?? null"
+                    [maxlength]="field.maxlength ?? null"
+                    #fieldModel="ngModel"
+                  />
+                  <ng-container *ngIf="fieldModel.invalid && fieldModel.touched">
+                    <div class="error-msg">
+                      <p *ngIf="fieldModel.errors?.['required']">Campo obrigatório</p>
+                      <p *ngIf="fieldModel.errors?.['pattern']">Formato inválido</p>
+                      <p *ngIf="fieldModel.errors?.['minlength']">Mínimo de {{ field.minlength }} caracteres</p>
+                      <p *ngIf="fieldModel.errors?.['maxlength']">Máximo de {{ field.maxlength }} caracteres</p>
+                    </div>
+                  </ng-container>
+                </div>
+              </article>
+            </fieldset>
           </ng-container>
         <app-button label="Enviar Formulário" [disabled]="form.invalid"/>
       </article>
